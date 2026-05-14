@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting up...")
-    await init_db()
+    # await init_db()
     yield
     logger.info("...Shutting down")
 
@@ -38,7 +38,7 @@ app.add_middleware(
 )
 
 for router in all_routers:
-    app.include_router(router)
+    app.include_router(router, prefix="/api")
 
 
 if __name__ == "__main__":

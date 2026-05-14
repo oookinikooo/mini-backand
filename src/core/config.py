@@ -19,7 +19,8 @@ class Settings(BaseSettings):
     TOPIC_ID: int | None = None
 
     JWT_SECRET_KEY: str
-    JWT_ALG: str
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int
+    JWT_ALGORITHM: str = Field(default="HS256")
 
     AD_LOGIN: str
     AD_PASSWORD: str

@@ -3,7 +3,8 @@ from typing import Annotated
 from fastapi import Depends
 from fastapi.exceptions import HTTPException
 from fastapi.security import HTTPBearer
-from jose import JWTError, jwt
+from jose import jwt
+from jose.exceptions import ExpiredSignatureError, JWTError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.config import config
@@ -17,18 +18,13 @@ async def get_current_user(token: str = Depends(oauth2_schema)):
         payload = jwt.decode(
             token,
             config.JWT_SECRET_KEY,
-            algorithms=config.JWT_ALG,
+            algorithms=config.JWT_ALGORITHM,
         )
-        # user_id = payload.get("user_id")
-        expired = payload.get("exp")
-        print(f"payload: {payload}\nexpired str: {expired}")
-
-        if expired:
-            raise HTTPException(status_code=401, detail="Session expired")
-
         return payload
+    except ExpiredSignatureError:
+        raise HTTPException(status_code=401, detail="Token expired")
     except JWTError:
-        raise HTTPException(status_code=403, detail="Invalid Telegram auth")
+        raise HTTPException(status_code=401, detail="Invalid token")
 
 
 DBSessionDep = Annotated[AsyncSession, Depends(get_session)]
