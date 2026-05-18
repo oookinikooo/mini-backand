@@ -13,8 +13,19 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
-@router.get("/{user_id}", response_model=User)
-async def get_user_info(user_id: int, db_session: DBSessionDep):
+# @router.get("/{user_id}", response_model=User)
+# async def get_user_info(user_id: int, db_session: DBSessionDep):
+#     user_service = UserService(db_session)
+#     user = await user_service.get(user_id)
+#     if not user:
+#         raise HTTPException(status_code=401, detail="Not authorize")
+#     return user
+
+
+@router.get("/", response_model=User)
+async def get_user_info_by_token(user_session: UserDep, db_session: DBSessionDep):
+    user_id = user_session["user_id"]
+
     user_service = UserService(db_session)
     user = await user_service.get(user_id)
     if not user:
