@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting up...")
-    # await init_db()
+    await init_db()
     yield
     logger.info("...Shutting down")
 

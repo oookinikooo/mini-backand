@@ -13,10 +13,10 @@ from src.core.db import get_session
 oauth2_schema = HTTPBearer()
 
 
-async def get_current_user(token: str = Depends(oauth2_schema)):
+async def get_current_user(bearer=Depends(oauth2_schema)):
     try:
         payload = jwt.decode(
-            token,
+            bearer.credentials,
             config.JWT_SECRET_KEY,
             algorithms=config.JWT_ALGORITHM,
         )
