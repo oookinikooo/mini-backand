@@ -60,16 +60,6 @@ class User(Base):
     created_at: Mapped[created_at]
     updated_at: Mapped[updated_at]
 
-    @property
-    def full_name(self):
-        return ' '.join(i for i in [self.firstname, self.middle_name, self.surname] if i)
-    
-    @property
-    def name_pretty(self):
-        if self.middle_name:
-            return f"{self.firstname} {self.middle_name}".strip()
-        return self.full_name
-
     repr_cols_num = 2
     repr_cols = ('id', 'login', 'status')
 

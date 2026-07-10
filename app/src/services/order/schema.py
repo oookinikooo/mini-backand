@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class OrderAdd(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="ignore", from_attributes=True)
 
     user_id: int
     creator: str
