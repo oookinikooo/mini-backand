@@ -1,8 +1,9 @@
-from .routers import auth, creator, order, users
+from .routers import auth, order, requester, service_type, users
 
 all_routers = [
     auth.router,
     users.router,
     order.router,
-    creator.router,
+    requester.router,
+    service_type.router,
 ]
